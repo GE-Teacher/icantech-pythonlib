@@ -3,7 +3,7 @@ from setuptools import setup
 # twine upload dist/*
 class MODULE:
     NAME = 'icantech'
-    VERSION = '1.0.0'
+    VERSION = '1.0.1'
     URL = 'https://github.com/GE-Teacher/icantech-pythonlib'
     LICENSE = 'MIT License'
     DESCRIPTION = 'Python library for ICANTECH'

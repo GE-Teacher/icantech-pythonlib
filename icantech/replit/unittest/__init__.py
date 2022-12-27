@@ -54,10 +54,10 @@ class InvalidObjectTest(__KeywordCheckTest):
     def run(self):
         for script in self.test_script_words:
             is_used = (
-                # Direct use
+                # Direct usage
 				re.search(f'\W+{self.object_name}\W+', ''.join(self.test_script_words[script])) is not None and
-				# Indirect use
-                re.search(f'=(.*){self.object_name}[^\w+|.]', ''.join(self.test_script_words[script])) is not None
+				# Indirect usage
+                re.search(f'=\s*{self.object_name}[^\w+|.]', ''.join(self.test_script_words[script])) is not None
 			)
             self.tester.assertFalse(is_used, self.failure_message)
 
