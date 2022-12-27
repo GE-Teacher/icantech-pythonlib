@@ -20,7 +20,7 @@ class __BaseTestCase(abc.ABC):
     def run(self):...
     
 class __KeywordCheckTest(__BaseTestCase):
-    def __init__(self, tester, failure_message, test_script_words, workdir='.', exceptions=[]):
+    def __init__(self, tester, failure_message, test_script_words):
         self.test_script_words = test_script_words
         super().__init__(tester, failure_message)
     @abc.abstractmethod
@@ -47,24 +47,24 @@ class RequiredObjectTest(__BaseTestCase):
         self.tester.assertTrue(__test_result, self.failure_message)
 
 class InvalidObjectTest(__KeywordCheckTest):
-    def __init__(self, tester, failure_message, test_script_words, object_name, workdir='.', exceptions=[]):
+    def __init__(self, tester, failure_message, test_script_words, object_name):
         self.object_name = object_name
-        super().__init__(tester, failure_message, test_script_words, workdir, exceptions)
+        super().__init__(tester, failure_message, test_script_words)
 
     def run(self):
         for script in self.test_script_words:
             is_used = (
                 # Direct usage
-				re.search(f'\W+{self.object_name}\W+', ''.join(self.test_script_words[script])) is not None and
+				re.search(f'\W+{self.object_name}\W+', ''.join(self.test_script_words[script])) is not None or
 				# Indirect usage
                 re.search(f'=\s*{self.object_name}[^\w+|.]', ''.join(self.test_script_words[script])) is not None
 			)
             self.tester.assertFalse(is_used, self.failure_message)
 
 class InvalidKeywordTest(__KeywordCheckTest):
-    def __init__(self, tester, failure_message, test_script_words, keyword, workdir='.', exceptions=[]):
+    def __init__(self, tester, failure_message, test_script_words, keyword):
         self.keyword = keyword
-        super().__init__(tester, failure_message, test_script_words, workdir, exceptions)
+        super().__init__(tester, failure_message, test_script_words)
 
     def run(self):
         for script in self.test_script_words:
@@ -72,9 +72,9 @@ class InvalidKeywordTest(__KeywordCheckTest):
             self.tester.assertFalse(is_used, self.failure_message)
 
 class InvalidOperatorTest(__KeywordCheckTest):
-    def __init__(self, tester, failure_message, test_script_words, keyword, workdir='.', exceptions=[]):
+    def __init__(self, tester, failure_message, test_script_words, keyword):
         self.keyword = keyword
-        super().__init__(tester, failure_message, test_script_words, workdir, exceptions)
+        super().__init__(tester, failure_message, test_script_words)
 
     def run(self):
         for script in self.test_script_words:
